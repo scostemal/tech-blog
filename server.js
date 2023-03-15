@@ -9,7 +9,6 @@ const sequelize = require('./config/connection');
 
 const app = express();
 const PORT = process.env.PORT || 3001
-const helpers = require('./utils/helpers');
 
 const sess = {
     secret: 'Super secret secret',
@@ -23,10 +22,26 @@ const sess = {
 
 app.use(session(sess));
 
-const hbs = exphbs.create({ helpers });
+// Middleware to check if the user is logged in.
 
-app.engine('handlebars', hbs.engine);
-app.set('view engine', 'handlebars');
+const loggedIn = (req, res, next) => {
+    if(!req.session.loggedIn) {
+        res.redirect('/login');
+    } else {
+        next();
+    }
+};
+
+// Middleware to pass session data to templates
+
+app.use((req, res, next) => {
+    res.locals.loggedIn = req.session.loggedIn;
+    res.locals.username = req.session.username;
+    next();
+});
+
+app.engine("handlebars", exphbs());
+app.set("view engine", "handlebars");
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
