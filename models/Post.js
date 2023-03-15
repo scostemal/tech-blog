@@ -30,7 +30,7 @@ Post.init(
             },
             onDelete: 'CASCADE',
         },
-    }
+    },
     {
         sequelize,
         timestamps: true,
