@@ -1,0 +1,30 @@
+<h1>{{post.title}}</h1>
+
+<p>{{post.body}}</p>
+
+{{#if comments.length}}
+    <h2>Comments</h2>
+    <ul>
+    {{#each comments}}
+        <li>
+            <p>{{body}}</p>
+            <small>By {{User.username}} on {{createdAt}}</small>
+        </li>
+    {{/each}}
+    </ul>
+{{else}}
+    <p>No comments yet.</p>
+{{/if}}
+
+<hr>
+
+{{#if loggedIn}}
+    <form action="/post/{{post.id}}/comment" method="POST">
+        <h2>New Comment</h2>
+        <label for="body">Body:</label>
+        <textarea = name="body" required></textarea>
+        <button type="submit">Create</button>
+    </form>
+{{else}}
+    <p>Please log in to leave a comment.</p>
+{{/if}}

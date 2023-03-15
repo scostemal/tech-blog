@@ -1,0 +1,27 @@
+<h1>Dashboard</h1>
+
+{{#if posts.length}}
+<ul>
+    {{#each posts}}
+    <li>
+        <a href="/post/{{id}}">{{title}}</a>
+        <form action="/dashboard/delete/{{id}}" method="POST">
+        <button type="submit">Delete</button>
+        </form>
+    </li>
+    {{/each}}
+</ul>
+{{else}}
+<p>No posts yet.</p>
+{{/if}}
+
+<hr>
+
+<form action="/dashboard/create" method="POST">
+    <h2>New Post</h2>
+    <label for="title">Title:</label>
+    <input type="text" name="title" required>
+    <label for="body">Body:</label>
+    <textarea type="text" name="body" required></textarea>
+    <button type="submit">Create</button>
+</form>
